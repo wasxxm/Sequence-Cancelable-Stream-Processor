@@ -16,6 +16,11 @@
 const CANCELABLE = true;
 const NOT_CANCELABLE = false;
 
+const FAILURE_ENABLER = true; // Set to false to disable random failures
+const FAILURE_RATE = 0.3; // Failure rate for simulated processing failures
+
+const CONCURRENCY_POOL = 3;
+
 type Chunk = {
     id: string;
     isCancelable: boolean;
@@ -64,7 +69,17 @@ class SequenceCancelableStream {
 
     private async processChunk(chunk: Chunk): Promise<void> {
         console.log(`Processing chunk: ${chunk.id}`);
-        return new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate processing time
+
+        // Simulate a random failure
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (FAILURE_ENABLER && Math.random() < FAILURE_RATE) {  // FAILURE_RATE * 100% chance to fail
+                    reject(new Error(`Simulated failure for chunk: ${chunk.id}`));
+                } else {
+                    resolve();
+                }
+            }, 1000); // Simulate processing time
+        });
     }
 }
 
@@ -72,10 +87,10 @@ class SequenceCancelableStream {
 const chunks: [string, boolean, number][] = [
     ['chunk1', CANCELABLE, 10],
     ['chunk2', CANCELABLE, 10],
-    ['chunk3', NOT_CANCELABLE, 2],
+    ['chunk3', NOT_CANCELABLE, 1],
     ['chunk4', CANCELABLE, 10],
     ['chunk5', CANCELABLE, 10],
-    ['chunk6', NOT_CANCELABLE, 2],
+    ['chunk6', NOT_CANCELABLE, 1],
     ['chunk7', CANCELABLE, 10],
     ['chunk8', CANCELABLE, 10],
     ['chunk9', NOT_CANCELABLE, 1],
@@ -84,9 +99,8 @@ const chunks: [string, boolean, number][] = [
     ['chunk12', NOT_CANCELABLE, 1],
 ];
 
-// Instantiate the stream processor with a concurrency pool of 3
-const concurrencyPool = 3;
-const streamProcessor = new SequenceCancelableStream(concurrencyPool);
+// Instantiate the stream processor with a concurrency pool
+const streamProcessor = new SequenceCancelableStream(CONCURRENCY_POOL);
 
 // Add each chunk to the processor
 chunks.forEach(([id, isCancelable, timeout]) =>

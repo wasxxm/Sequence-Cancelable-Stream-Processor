@@ -35,6 +35,49 @@ The algorithm used to solve the problem follows these steps:
 3. **Non-Cancelable Chunk Processing**: Non-cancelable chunks are added to a processing queue after their timeout and are processed concurrently, up to a specified concurrency limit.
 4. **Concurrency Management**: The algorithm ensures that no more than the defined number of chunks are processed simultaneously, respecting the concurrency pool limit.
 
+## Concurrency Pool
+
+The concurrency pool is a mechanism that limits the number of chunks being processed simultaneously. For this implementation, the concurrency pool is set to 3, meaning that up to 3 chunks can be processed concurrently. The pool ensures that the system doesn’t overwhelm resources and maintains an orderly processing flow.
+
+## Simulated Processing Failures
+
+To test the robustness of the system, a simulated failure mechanism is introduced. This mechanism can randomly cause a chunk processing operation to fail. The failure probability is controlled by the `FAILURE_RATE`, which is set to 0.3 (30% chance of failure). The failures can be enabled or disabled using the `FAILURE_ENABLER` flag:
+
+- **FAILURE_ENABLER**: Set to `true` to enable simulated failures, or `false` to disable them.
+- **FAILURE_RATE**: Determines the probability of a chunk failing during processing.
+
+### Example Failure Scenario
+
+When the failure mechanism is enabled, the output might look like this:
+
+```plaintext
+Adding chunk to queue: chunk3
+Processing chunk: chunk3
+Adding chunk to queue: chunk6
+Processing chunk: chunk6
+Adding chunk to queue: chunk9
+Processing chunk: chunk9
+Adding chunk to queue: chunk12
+Processing chunk: chunk12
+Failed to process chunk: chunk6 Error: Simulated failure for chunk: chunk6
+    at Timeout._onTimeout (/Users/waseemkhan/Documents/Upwork/Oleksii/Test/index.ts:77:28)
+    at listOnTimeout (node:internal/timers:581:17)
+    at processTimers (node:internal/timers:519:7)
+Failed to process chunk: chunk12 Error: Simulated failure for chunk: chunk12
+    at Timeout._onTimeout (/Users/waseemkhan/Documents/Upwork/Oleksii/Test/index.ts:77:28)
+    at listOnTimeout (node:internal/timers:581:17)
+    at processTimers (node:internal/timers:519:7)
+Skipping chunk: chunk1
+Skipping chunk: chunk2
+Skipping chunk: chunk4
+Skipping chunk: chunk5
+Skipping chunk: chunk7
+Skipping chunk: chunk8
+Skipping chunk: chunk10
+Skipping chunk: chunk11
+
+```
+
 ## Installation and Setup
 
 ### Prerequisites
@@ -106,6 +149,7 @@ Skipping chunk: chunk11
 
 ### Key Features
 
-- **Concurrency Management**: The solution handles up to any number of chunks being processed simultaneously.
+- **Concurrency Management**: The solution handles up to any number of chunks being processed simultaneously, with a concurrency pool limit of 3.
 - **Efficient Processing**: Cancelable chunks are skipped, and non-cancelable chunks are processed immediately once their timeouts elapse.
+- **Simulated Failures**: A failure simulation mechanism is included to test how the system handles chunk processing failures.
 - **Clear Logging**: The output clearly logs which chunks are skipped and which are processed.
