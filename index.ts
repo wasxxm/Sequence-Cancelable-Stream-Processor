@@ -1,3 +1,17 @@
+/**
+ * Sequence Cancelable Stream Processor
+ *
+ * This script was created as part of a test project assignment provided by Oleksii Mylotskyi.
+ * It implements a sequence cancelable stream processor in TypeScript, handling both cancelable
+ * and non-cancelable chunks based on their timeouts. The processor respects a concurrency limit
+ * while ensuring that only the latest non-cancelable chunks are processed.
+ *
+ * Please note that this code is intended solely for evaluation purposes as part of the test project.
+ *
+ * Developed by: Waseem Khan
+ * Date: Aug. 20, 2024
+ */
+
 // Define constants for cancelable and non-cancelable statuses
 const CANCELABLE = true;
 const NOT_CANCELABLE = false;
@@ -58,10 +72,10 @@ class SequenceCancelableStream {
 const chunks: [string, boolean, number][] = [
     ['chunk1', CANCELABLE, 10],
     ['chunk2', CANCELABLE, 10],
-    ['chunk3', NOT_CANCELABLE, 1],
+    ['chunk3', NOT_CANCELABLE, 2],
     ['chunk4', CANCELABLE, 10],
     ['chunk5', CANCELABLE, 10],
-    ['chunk6', NOT_CANCELABLE, 1],
+    ['chunk6', NOT_CANCELABLE, 2],
     ['chunk7', CANCELABLE, 10],
     ['chunk8', CANCELABLE, 10],
     ['chunk9', NOT_CANCELABLE, 1],
