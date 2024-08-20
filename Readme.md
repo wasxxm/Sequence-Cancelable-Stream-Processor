@@ -45,8 +45,8 @@ Ensure that you have Node.js and npm installed on your system. You can download 
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/your-username/sequence-cancelable-stream.git
-    cd sequence-cancelable-stream
+    git clone https://github.com/wasxxm/Sequence-Cancelable-Stream-Processor.git
+    cd Sequence-Cancelable-Stream-Processor
     ```
 
 2. **Install Dependencies**:
