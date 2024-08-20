@@ -16,7 +16,7 @@
 const CANCELABLE = true;
 const NOT_CANCELABLE = false;
 
-const FAILURE_ENABLER = true; // Set to false to disable random failures
+const FAILURE_ENABLER = false; // Set to false to disable random failures
 const FAILURE_RATE = 0.3; // Failure rate for simulated processing failures
 
 const CONCURRENCY_POOL = 3;
