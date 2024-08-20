@@ -80,10 +80,6 @@ Skipping chunk: chunk11
 
 ## Installation and Setup
 
-### Prerequisites
-
-Ensure that you have Node.js and npm installed on your system. You can download them from [Node.js official website](https://nodejs.org/).
-
 ### Steps to Set Up and Run
 
 1. **Clone the Repository**:
